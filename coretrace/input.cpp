@@ -54,6 +54,8 @@
 #include <ctype.h>
 #include <math.h>
 
+#include <limits>
+
 #include "types.h"
 #include "procs.h"
 #include "interpolate.h"
