@@ -4,6 +4,7 @@ from typing import List
 import pandas as pd
 from ctypes import *
 c_number = c_double   #must be either c_double or c_float depending on coretrace definition
+from pathlib import Path
 import multiprocessing
 import time
 import math
@@ -1353,16 +1354,16 @@ class PySolTrace:
         return 0
 
     def __load_dll(self):
-        cwd = os.getcwd()
+        library_dir = Path(__file__).resolve().parent
         if sys.platform == 'win32' or sys.platform == 'cygwin':
             ## loaded SolTrace library of exported functions
-            pdll = CDLL(cwd + "/coretrace_api.dll")
+            pdll = CDLL(str(library_dir / "coretrace_api.dll"))
             # print("Loaded win32")
-            #pdll = CDLL(cwd + "/coretraced.dll") # for debugging
+            # pdll = CDLL(str(library_dir / "coretraced.dll")) # for debugging
         elif sys.platform == 'darwin':
-            pdll = CDLL(cwd + "/coretrace.dylib")  # Never tested
+            pdll = CDLL(str(library_dir / "coretrace.dylib"))  # Never tested
         elif sys.platform.startswith('linux'):
-            pdll = CDLL(cwd +"/coretrace_api.so")  
+            pdll = CDLL(str(library_dir / "coretrace_api.so"))
         else:
             print( 'Platform not supported ', sys.platform)
         return pdll
